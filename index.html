@@ -14,45 +14,32 @@
     <div class="container">
         <img src="cert-gen/assets/fnx-colorless-wide.svg" width="275px">
         <h1 class=" mb-4">FNX academy free tools and services</h1>
-        <div class="row">
-            <div class="col-md mb-4 ">
-                <a href="/cert-gen/" class="card shadow-sm">
-                    <div class="card-body">
-                        <img src="/assets/certificate-contract-svgrepo-com.svg" width="100">
-                        <hr>
-                        <h3 class="card-title">certificate generator </h3>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md mb-4">
-                <a href="/CyberChef_v10.8.2/" class="card shadow-sm">
-                    <div class="card-body">
-                        <img src="/assets/coder-coding-computer-svgrepo-com.svg" width="100">
-                        <hr>
-                        <h3 class="card-title">cyber chef</h3>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md mb-4">
-                <a href="it-tools/" class="card shadow-sm">
-                    <div class="card-body">
-                        <img src="/assets/code-tech-dev-svgrepo-com.svg" width="100">
-                        <hr>
-                        <h3 class="card-title">IT tools</h3>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md mb-4">
-                <a href="password/" class="card shadow-sm">
-                    <div class="card-body">
-                        <img src="/assets/password-svgrepo-com.svg" width="100">
-                        <hr>
-                        <h3 class="card-title">password checker</h3>
-                    </div>
-                </a>
-            </div>
-        </div>
+        <div class="row"></div>
     </div>
+    <script>
+        let row = document.querySelector('.row');
+        let tools = [
+            { name: 'certificate generator', link: '/cert-gen/', img: '/assets/certificate-contract-svgrepo-com.svg' },
+            { name: 'cyber chef', link: '/CyberChef_v10.8.2/', img: '/assets/coder-coding-computer-svgrepo-com.svg' },
+            { name: 'IT tools', link: 'it-tools/', img: '/assets/code-tech-dev-svgrepo-com.svg' },
+            { name: 'password checker', link: 'password/', img: '/assets/password-svgrepo-com.svg' },
+            { name: 'excalidraw', link: 'excalidraw/', img: '/assets/excalidraw.svg' },
+            { name: 'drawio', link: 'drawio/', img: '/assets/drawio.svg' },
+            { name: 'memory', link: 'https://memos.fnx.tools/', img: '/assets/memory.svg' },
+            { name: 'secret sharing', link: 'https://ots.fnx.tools/', img: '/assets/secret.svg' },
+            { name: 'string-is', link: 'https://string-is.fnx.tools/', img: '/assets/string-is.svg' },
+        ];
 
+        tools.forEach(tool => {
+            let a = '<a href="' + tool.link + '" class="card bg-grey shadow-sm" style="background-color: #2A2E35; color: white;">';
+            let cardBody = '<div class="card-body">';
+            let img = '<img src="' + tool.img + '" width="150" class="p-4 ">';
+            let hr = '<hr>';
+            let h3 = '<h3 class="card-title">' + tool.name + '</h3>';
+            let htmlString = '<div class="col-md mb-4" >' + a + cardBody + img + hr + h3 + '</div></a></div>';
+            row.innerHTML += htmlString;
+        });
+
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
 </body>
