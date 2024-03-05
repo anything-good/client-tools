@@ -20,22 +20,23 @@
         let row = document.querySelector('.row');
         let tools = [
             { name: 'certificate generator', link: '/cert-gen/', img: '/assets/certificate-contract-svgrepo-com.svg' },
-            { name: 'cyber chef', link: '/CyberChef_v10.8.2/', img: '/assets/coder-coding-computer-svgrepo-com.svg' },
+            { name: 'cyber chef', link: '/CyberChef_v10.8.2/', img: '/assets/cyberchef.png' },
             { name: 'IT tools', link: 'it-tools/', img: '/assets/code-tech-dev-svgrepo-com.svg' },
             { name: 'password checker', link: 'password/', img: '/assets/password-svgrepo-com.svg' },
-            { name: 'excalidraw', link: 'excalidraw/', img: '/assets/excalidraw.svg' },
-            { name: 'drawio', link: 'drawio/', img: '/assets/drawio.svg' },
-            { name: 'memory', link: 'https://memos.fnx.tools/', img: '/assets/memory.svg' },
+            { name: 'excalidraw', link: 'excalidraw/', img: '/assets/excalidraw.png' },
+            { name: 'drawio', link: 'drawio/', img: '/assets/drawio.png' },
+            { name: 'memory', link: 'https://memos.fnx.tools/', img: '/assets/memo.svg' },
             { name: 'secret sharing', link: 'https://ots.fnx.tools/', img: '/assets/secret.svg' },
             { name: 'string-is', link: 'https://string-is.fnx.tools/', img: '/assets/string-is.svg' },
+            { name: 'resume', link: 'resume/', img: '/assets/resume.svg' }
         ];
 
         tools.forEach(tool => {
             let a = '<a href="' + tool.link + '" class="card bg-grey shadow-sm" style="background-color: #2A2E35; color: white;">';
             let cardBody = '<div class="card-body">';
-            let img = '<img src="' + tool.img + '" width="150" class="p-4 ">';
+            let img = '<img src="' + tool.img + '" width="175" class="p-4 ">';
             let hr = '<hr>';
-            let h3 = '<h3 class="card-title">' + tool.name + '</h3>';
+            let h3 = '<h4 class="card-title">' + tool.name + '</h3>';
             let htmlString = '<div class="col-md mb-4" >' + a + cardBody + img + hr + h3 + '</div></a></div>';
             row.innerHTML += htmlString;
         });
