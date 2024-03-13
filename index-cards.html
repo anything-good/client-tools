@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid View</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-black text-white text-center m-2">
+
+    <div class="container">
+        <img src="cert-gen/assets/fnx-colorless-wide.svg" width="275px">
+        <h1 class=" mb-4">FNX academy free tools and services</h1>
+        <div class="row"></div>
+    </div>
+    <script>
+        let row = document.querySelector('.row');
+        let tools = [
+            { name: 'certificate generator', link: '/cert-gen/', img: '/assets/certificate-contract-svgrepo-com.svg' },
+            { name: 'cyber chef', link: '/CyberChef_v10.8.2/', img: '/assets/cyberchef.png' },
+            { name: 'IT tools', link: 'it-tools/', img: '/assets/code-tech-dev-svgrepo-com.svg' },
+            { name: 'password checker', link: 'password/', img: '/assets/password-svgrepo-com.svg' },
+            { name: 'excalidraw', link: 'excalidraw/', img: '/assets/excalidraw.png' },
+            { name: 'drawio', link: 'drawio/', img: '/assets/drawio.png' },
+            { name: 'memory', link: 'https://memos.fnx.tools/', img: '/assets/memo.svg' },
+            { name: 'secret sharing', link: 'https://ots.fnx.tools/', img: '/assets/secret.svg' },
+            { name: 'string-is', link: 'https://string-is.fnx.tools/', img: '/assets/string-is.svg' },
+            { name: 'resume', link: 'resume/', img: '/assets/resume.svg' }
+        ];
+
+        tools.forEach(tool => {
+            let a = '<a href="' + tool.link + '" class="card bg-grey shadow-sm" style="background-color: #2A2E35; color: white;">';
+            let cardBody = '<div class="card-body">';
+            let img = '<img src="' + tool.img + '" width="175" class="p-4 ">';
+            let hr = '<hr>';
+            let h3 = '<h4 class="card-title">' + tool.name + '</h3>';
+            let htmlString = '<div class="col-md mb-4" >' + a + cardBody + img + hr + h3 + '</div></a></div>';
+            row.innerHTML += htmlString;
+        });
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+</body>

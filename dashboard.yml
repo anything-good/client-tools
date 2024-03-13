@@ -1,0 +1,210 @@
+earch_engines:
+
+  - title: 'Google'
+    search_url: 'https://google.com/'
+    allow: true
+  - title: 'DuckDuckGo'
+    search_url: 'https://duckduckgo.com/'
+    autocomplete_url: 'https://duckduckgo.com/ac/'
+    allow: true
+  - title: 'Startpage'
+    search_url: 'https://www.startpage.com/sp/search'
+    allow: true
+  - title: 'Wikipedia'
+    search_url: 'https://wikipedia.org/w/index.php'
+    search_parameter: 'search'
+    allow: true
+  - title: 'Wolfram Alpha'
+    search_url: 'https://www.wolframalpha.com/input'
+    search_parameter: 'i'
+    allow: true
+
+ 
+sections:
+  
+  - allow: true
+    tiles:
+      - title: 'Hidden'
+        url: 'https://example.org'
+        emoji: 'Secret'
+        allow: false
+      # - title: 'Animals'
+      #   menu:
+      #     - title: 'Cats'
+      #       deny:
+      #         - 'group:dog-lovers'
+      #       menu:
+      #         - title: 'Tiger'
+      #           emoji: '🐈'
+      #           url: 'https://http.cat/'
+      #         - title: 'Blacky'
+      #           emoji: '🐈‍⬛'
+      #           url: 'https://http.cat/'
+      #         - title: 'Svelty'
+      #           emoji: '🐱'
+      #           url: 'https://http.cat/'
+      #         - title: 'Kitty'
+      #           emoji: '😺'
+      #           url: 'https://http.cat/'
+      #     - title: 'Dogs'
+      #       deny:
+      #         - 'group:cat-lovers'
+      #       menu:
+      #         - title: 'Dog1'
+      #           emoji: '🐶'
+      #           url: 'https://httpstatusdogs.com/'
+      #         - title: 'Dog2'
+      #           emoji: '🐕'
+      #           url: 'https://httpstatusdogs.com/'
+      #     - title: 'Fishs'
+      #       menu:
+      #         title: 'Aquarium'
+      #         tiles:
+      #           - title: 'Fish 1'
+      #             emoji: '🐟'
+      #             only_icon: true
+      #             url: 'https://github.com/cmatsuoka/asciiquarium'
+      #           - title: 'Fish 2'
+      #             emoji: ''
+      #             only_icon: true
+      #             url:
+      #               value: 'https://github.com/cmatsuoka/asciiquarium'
+      #               target: 'same-tab'
+      
+      - title: 'Sverdle'
+        url: '/sverdle/'
+  - title: 'السوشل ميديا'
+    allow: true
+    tiles:
+      - title: 'تويتر'
+        url: 'https://twitter.com'
+        logo: 'https://www.svgrepo.com/show/452123/twitter.svg'
+      - title: 'فيسبوك'
+        url: 'https://facebook.com'
+        logo: 'https://www.svgrepo.com/show/475647/facebook-color.svg'
+      - title: 'انستغرام'
+        url: 'https://instagram.com'
+        logo: 'https://www.svgrepo.com/show/452229/instagram-1.svg'
+      - title: 'لينكدان'
+        url: 'https://linkedin.com'
+        logo: 'https://www.svgrepo.com/show/448234/linkedin.svg'
+      - title: 'تليجرام'
+        url: 'https://web.telegram.org'
+        logo: 'https://www.svgrepo.com/show/354443/telegram.svg'
+      - title: 'سناب شات'
+        url: 'https://snapchat.com'
+        logo: 'https://www.svgrepo.com/show/349515/snapchat.svg'
+      - title: 'واتساب'
+        url: 'https://web.whatsapp.com'
+        logo: 'https://www.svgrepo.com/show/452133/whatsapp.svg'
+      - title: 'تيك توك'
+        url: 'https://tiktok.com'
+        logo: 'https://www.svgrepo.com/show/303260/tiktok-logo-logo.svg'
+      - title: 'يوتيوب'
+        url: 'https://youtube.com'
+        logo: 'https://www.svgrepo.com/show/475700/youtube-color.svg'
+      - title: 'تويتش'
+        url: 'https://twitch.tv'
+        logo: 'https://www.svgrepo.com/show/448251/twitch.svg'
+      - title: 'ديسكورد'
+        url: 'https://discord.com'
+        logo: 'https://www.svgrepo.com/show/343548/discord-communication-interaction-message-network.svg'
+      - title: 'سبوتيفاي'
+        url: 'https://open.spotify.com'
+        logo: 'https://www.svgrepo.com/show/349511/spotify.svg'
+
+  - title: 'ادوات للجميع'
+    allow: true
+    tiles:
+      
+      - title: 'ادوات كلمات المرور'
+        url: 'https://service.fnx.tools/password'
+        logo: 'https://raw.githubusercontent.com/anything-good/client-tools/b0f3e21da35c58e40f5826be286580c75946180b/assets/password-svgrepo-com.svg'
+
+      - title: 'ذكرباتك'
+        # subtitle: 'احفض جميع ذكرياتك في قاعدة بيانات أمنة و سلسة الاستخدام'
+        url: 'https://memos.fnx.tools'
+        logo: 'https://raw.githubusercontent.com/anything-good/client-tools/b0f3e21da35c58e40f5826be286580c75946180b/assets/memo.svg'
+      
+      - title: 'مشاركة الاسرار'
+        #subtitle: 'شارك الاسرار او الملفات بميزة التدمير الذاتي بكل امان وحدد عدد المرات التي يمكن الاطلاع عليها'
+        url: 'https://ots.fnx.tools/'
+        logo: 'https://raw.githubusercontent.com/anything-good/client-tools/b0f3e21da35c58e40f5826be286580c75946180b/assets/secret.svg'
+      - title: 'ادوات pdf'
+        #subtitle: 'MariaDB'
+        url: 'https://pdf-tools.fnx.tools/'
+        logo: 'https://www.svgrepo.com/show/270244/pdf.svg'
+      - title: 'DNS'
+        menu:
+          - title: 'Adguard'
+            url: 'https://adguard.com'
+            logo: 'adguard'
+          - title: 'PiHole'
+            url: 'https://pi-hole.net/'
+            logo: 'pihole'
+      - title: 'Grafana'
+        subtitle: 'Monitoring'
+        logo: 'grafana'
+        url: 'https://grafana.com/'
+        menu:
+          title: 'Grafana Dashboards'
+          tiles:
+            - title: 'Dashboard 1'
+              emoji: '📈'
+              url: 'https://example.org/dashboard1/'
+            - title: 'Dashboard 2'
+              emoji: '📉'
+              url: 'https://example.org/dashboard2/'
+            - title: 'Dashboard 3'
+              emoji: '📊'
+              url: 'https://example.org/dashboard3/'
+            - title: 'Dashboard 4'
+              url: 'https://example.org/dashboard4/'
+     
+  - title: 'ادوات المبرمجين'
+    allow: true
+    tiles:
+      - title: 'Gitlab'
+        logo: 'gitlab'
+        url: 'https://about.gitlab.com/install/'
+      - title: 'github'
+        logo: 'juiceshop'
+        url: 'https://github.com/'
+      - title: 'VS Code'
+        logo: 'vscode'
+        url: 'https://docs.linuxserver.io/images/docker-code-server/'
+      - title: 'it-tools'
+        logo: 'https://raw.githubusercontent.com/anything-good/client-tools/b0f3e21da35c58e40f5826be286580c75946180b/assets/code-tech-dev-svgrepo-com.svg'
+        url: 'https://service.fnx.tools/it-tools'
+      
+      - title: 'string-is'
+        logo: 'https://raw.githubusercontent.com/anything-good/client-tools/b0f3e21da35c58e40f5826be286580c75946180b/assets/string-is.svg'
+        url: 'https://string-is.fnx.tools/'
+      
+      - title: 'cyber-chef'
+        logo: 'https://raw.githubusercontent.com/anything-good/client-tools/main/assets/cyberchef.png'
+        url: 'https://service.fnx.tools/CyberChef_v10.8.2/'
+      - title: 'Postman'
+        logo: 'https://www.svgrepo.com/show/354202/postman-icon.svg'
+        url: 'https://www.postman.com/'
+
+  
+  - title: 'ادوات للاكاديميين و للعمل'
+    allow: true
+    tiles:
+      - title: 'السيرة الذاتية'
+        logo: 'https://raw.githubusercontent.com/anything-good/client-tools/b0f3e21da35c58e40f5826be286580c75946180b/assets/resume.svg'
+        url: 'https://service.fnx.tools/resume'
+
+      - title: 'excalidraw'
+        url: 'https://service.fnx.tools/excalidraw'
+        logo: 'https://raw.githubusercontent.com/anything-good/client-tools/main/assets/excalidraw.png'
+
+      - title: 'drawio-صانع المخططات'
+        logo: 'https://raw.githubusercontent.com/anything-good/client-tools/main/assets/drawio.png'
+        url: 'https://service.fnx.tools/drawio'
+
+
+      - title: 'الشهادات الرقمية'
+        logo: 'https://raw.githubusercontent.com/anything-good/client-tools/b0f3e21da35c58e40f5826be286580c75946180b/assets/certificate-contract-svgrepo-com.svg'
+        url: 'https://service.fnx.tools/cert-gen'
