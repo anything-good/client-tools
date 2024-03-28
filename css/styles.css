@@ -1,9 +1,3 @@
-body {
-    background-color: var(--primary-background-color);
-    color: var(--primary-font-color);
-    font-size: var(--font-size-body);
-}
-
 main {
     align-items: center;
     display: flex;
@@ -147,15 +141,6 @@ aside svg {
     height: 1.5rem;
 }
 
-#search {
-    display: flex;
-    justify-content: center;
-}
-
-#search form {
-    flex: 1 1 auto;
-    width: 100%;
-}
 
 #search input {
     background-color: transparent;
@@ -201,10 +186,10 @@ aside svg {
         border-color: hsl(var(--color-black-hsl) / 0.5);
     }
 
-    #bookmarks a:focus,
-    #bookmarks a:hover {
-        background-color: hsl(var(--color-black-hsl) / 0.05);
-    }
+    /* #bookmarks a:focus,
+        #bookmarks a:hover {
+            background-color: hsl(var(--color-black-hsl) / 0.05);
+        } */
 }
 
 #search input:focus {
@@ -213,36 +198,36 @@ aside svg {
     outline-color: hsl(var(--color-orange-hsl) / 0.25);
 }
 
-#bookmarks {
+/* #bookmarks {
     align-items: flex-start;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-}
+} */
 
-#bookmarks ul {
+/* #bookmarks ul {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     list-style-type: none;
     margin: 0;
     padding: 0;
-}
+} */
 
-#bookmarks li {
+/* #bookmarks li {
     align-items: center;
     display: flex;
     flex-direction: row;
     line-height: 1;
     margin-bottom: var(--spacing-xs);
-}
+} */
 
 .favicon {
     margin-right: var(--spacing-s);
     height: 1rem;
 }
 
-#bookmarks a {
+/* #bookmarks a {
     align-items: center;
     border-radius: 0.25rem;
     display: flex;
@@ -255,7 +240,7 @@ aside svg {
 #bookmarks a:hover {
     color: var(--primary-link-hover-color);
     outline: none;
-}
+} */
 
 /*
     Accessible hiding for screen readers
@@ -294,9 +279,9 @@ aside svg {
         padding: 0;
     }
 
-    #bookmarks {
+    /* #bookmarks {
         flex-direction: row;
-    }
+    } */
 }
 
 #traichu {
@@ -308,4 +293,40 @@ aside svg {
     row-gap: var(--spacing-l);
     width: 60rem;
     /* Increased from 20rem to 30rem */
+}
+
+#traichu {
+    width: 100%;
+    /* Changed from 60rem to 100% */
+}
+
+header {
+    width: 100%;
+    /* Ensures header takes full width */
+}
+
+/* Responsive Media Queries */
+@media screen and (min-width: 48em) {
+
+
+    #traichu {
+        padding: 0;
+        width: 45rem;
+        /* This can be adjusted as per your design */
+    }
+
+    aside img,
+    aside svg {
+        height: 7.5rem;
+    }
+
+    #dock ul {
+        column-gap: 0;
+        justify-content: space-around;
+        padding: 0;
+    }
+
+    /* #bookmarks {
+        flex-direction: row;
+    } */
 }
