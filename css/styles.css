@@ -258,7 +258,7 @@ aside svg {
 }
 
 /* Responsive Media Queries */
-@media screen and (min-width: 48em) {
+@media screen and (min-width: 24em) {
     header {
         display: flex;
     }
@@ -307,7 +307,7 @@ header {
 }
 
 /* Responsive Media Queries */
-@media screen and (min-width: 48em) {
+@media screen and (min-width: 24em) {
 
 
     #traichu {
@@ -345,7 +345,7 @@ header {
 }
 
 /* Responsive Media Queries */
-@media screen and (min-width: 48em) {
+@media screen and (min-width: 24em) {
     header {
         display: flex;
     }
@@ -365,5 +365,12 @@ header {
         column-gap: 0;
         justify-content: space-around;
         padding: 0;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    body {
+        color: #fff;
+        /* Adjust this color as needed */
     }
 }
