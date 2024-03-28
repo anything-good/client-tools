@@ -367,10 +367,3 @@ header {
         padding: 0;
     }
 }
-
-@media screen and (max-width: 600px) {
-    body {
-        color: #fff;
-        /* Adjust this color as needed */
-    }
-}
