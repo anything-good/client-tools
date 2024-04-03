@@ -41,11 +41,3 @@
 }
 
 /* Dark Mode */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --primary-background-color: var(--color-black);
-        --primary-font-color: var(--color-white);
-        --primary-link-color: hsl(var(--color-white-hsl) / 0.5);
-        --primary-link-hover-color: var(--color-white);
-    }
-}

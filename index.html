@@ -17,7 +17,7 @@
                 const date = new Date();
                 let today = date.toDateString();
                 let time = date.toLocaleTimeString();
-                document.getElementById('date-time').innerHTML = '<p id="date">' + today + '</p><p id="time">' + time + '</p>';
+                document.getElementById('date-time').innerHTML = '<p class="text-white" id="date">' + today + '</p><p class="text-white" id="time">' + time + '</p>';
                 setTimeout(dateTime, 1000);
             }
 
@@ -32,7 +32,7 @@
                         let tempK = parseFloat(data.main.temp);
                         let tempC = Math.round(tempK - 273.15);
                         let tempF = Math.round((tempK - 273.15) * 1.8) + 32;
-                        document.getElementById('weather').innerHTML = '<p id="location">' + data.name + '</p><p id="details" ' + 'title="' + tempF + '&deg;F">' + '<img src="https://openweathermap.org/img/wn/' + weatherIcon + '.png">' + data.weather[0].description + '<span class="separator">|</span>' + tempC + '&deg;C</p>';
+                        document.getElementById('weather').innerHTML = '<p class="text-white" id="location">' + data.name + '</p><p class="text-white" id="details" ' + 'title="' + tempF + '&deg;F">' + '<img src="https://openweathermap.org/img/wn/' + weatherIcon + '.png">' + data.weather[0].description + '<span class="separator">|</span>' + tempC + '&deg;C</p>';
                     });
             }
 
@@ -349,7 +349,7 @@ flex-direction: row;
                 </form>
             </section>
         </section>
-        <ul id="bookmarks" class="row m-2 justify-content-center align-items-center p-0"></ul>
+        <ul id="bookmarks" class="text-white row m-2 justify-content-center align-items-center p-0"></ul>
     </main>
 </body>
 
