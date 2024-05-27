@@ -42,7 +42,7 @@
 
 
 
-            let tools = [
+            let publicTools = [
                 { name: 'certificate', link: '/cert-gen/', img: '/assets/certificate-contract-svgrepo-com.svg' },
                 { name: 'CV builder', link: 'resume/', img: '/assets/resume.svg' },
                 { name: 'PDF tools', link: 'https://pdf-tools.fnx.tools/', img: '/assets/pdf.svg' },
@@ -51,13 +51,25 @@
                 { name: 'password tools', link: 'password/', img: '/assets/password-svgrepo-com.svg' },
                 { name: 'excalidraw', link: 'excalidraw/', img: '/assets/excalidraw.png' },
                 { name: 'drawio', link: 'drawio/', img: '/assets/drawio.png' },
+<<<<<<< HEAD
                 //{ name: 'memory', link: 'https://memos.fnx.tools/', img: '/assets/memo.svg' },
+=======
+>>>>>>> 9da3c4b (cs)
                 { name: 'secret sharing', link: 'https://ots.fnx.tools/', img: '/assets/secret.svg' },
                 { name: 'URL shortener', link: 'https://s.fnx.tools/', img: '/assets/url.svg' },
                 { name: 'internet speed', link: 'speed-test', img: '/assets/gauge.svg' },
             ];
 
-            let html = tools.map(tool => `
+            let privateTools = [
+                { name: '2fa', link: 'https://2fa.fnx.tools', img: 'https://cdn-icons-png.flaticon.com/256/11220/11220734.png' },
+                { name: 'FileGator', link: 'https://filegator.fnx.tools', img: 'https://avatars.githubusercontent.com/u/51749128?s=200&v=4' },
+                { name: 'GitLab', link: 'https://gitlab.fnx.tools', img: 'https://yt3.googleusercontent.com/R6P5skGdZJeM1bebvt3ILeU8k-9tiqE5T198RmBH8SoGXH2gk_Lk-45uZoq6X6pW4a4c9Sqn=s900-c-k-c0x00ffffff-no-rj' },
+                { name: 'PenPot', link: 'https://PenPot.fnx.tools', img: 'https://d4.alternativeto.net/gpayjJ_wup7L1nzrdg9dt7mR730s6i4HC3mZlnEOK6s/rs:fit:280:280:0/g:ce:0:0/exar:1/YWJzOi8vZGlzdC9pY29ucy9wZW5wb3RfMjEwMDUyLnBuZw.png' },
+                { name: 'Portainer', link: 'https://Portainer.fnx.tools', img: 'https://repository-images.githubusercontent.com/725794693/3b812728-09ec-4db5-b03b-b9f48cc439e3' },
+                { name: 'Next Cloud', link: 'https://cloud.fnx.tools', img: 'https://idin9-web-files.s3.ap-southeast-1.amazonaws.com/th/wp-content/uploads/2020/03/02161822/NextCloud.png' },
+            ];
+
+            let publicToolsHtml = publicTools.map(tool => `
                                 <div class="col-lg-2 col-md-3 col-sm-6  col my-4 d-flex justify-content-center custom-col">
                                     <li class="list-group-item">
                                         <a href="${tool.link}" target="_blank" style="text-decoration: none;">
@@ -71,7 +83,25 @@
                                 </div>
                                 `).join('');
 
-            document.getElementById('bookmarks').innerHTML = html;
+
+            let privateToolsHtml = privateTools.map(tool => `
+            <div class="col-lg-2 col-md-3 col-sm-6 col my-4 d-flex justify-content-center custom-col">
+                <li class="list-group-item">
+                    <a href="${tool.link}" target="_blank" style="text-decoration: none;">
+                        <div class="card d-flex flex-column align-items-center custom-card" style="background-color: #2A2E35; color: white;">
+                            <img class="card-img-top mt-2" src="${tool.img}" alt="${tool.name} favicon" style="width: 4rem; height: 4rem;">
+                            <hr class="w-100" style="border-top: 1px solid white;">
+                            <h5 class="text-center mb-2">${tool.name}</h5>
+                        </div>
+                    </a>
+                </li>
+            </div>
+                                `).join('');
+
+            document.getElementById('private-tools').innerHTML = privateToolsHtml;
+            document.getElementById('public-tools').innerHTML = publicToolsHtml;
+
+
 
         }
     </script>
@@ -293,9 +323,7 @@
             padding: 0;
         }
 
-        /* #bookmarks {
-flex-direction: row;
-} */
+
     }
 
     header {
@@ -351,7 +379,18 @@ flex-direction: row;
                 </form>
             </section>
         </section>
-        <ul id="bookmarks" class="text-white row m-2 justify-content-center align-items-center p-0"></ul>
+        <h2 class="mt-4 text-white"
+            style="font-size: 2rem; font-weight: bold; text-align: center; text-transform: uppercase; letter-spacing: 0.1rem;">
+            Public Tools
+        </h2>
+        <ul id="public-tools" class="text-white row m-2 justify-content-center align-items-center p-0"></ul>
+
+        <h2 class="mt-4 text-white"
+            style="font-size: 2rem; font-weight: bold; text-align: center; text-transform: uppercase; letter-spacing: 0.1rem;">
+            Private Tools
+        </h2>
+        <ul id="private-tools" class="text-white row m-2 justify-content-center align-items-center p-0"></ul>
+
     </main>
 </body>
 
