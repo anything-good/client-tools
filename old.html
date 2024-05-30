@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Fnx Tools</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="32x32" href="fnx-trans-tall.svg">
+    <link rel="icon" type="image/png" sizes="16x16" href="fnx-trans-tall.svg">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://www.marcoguglie.it/Codepen/AnimatedHeaderBg/demo-1/css/demo.css">
+    <link href='https://fonts.googleapis.com/css?family=Raleway:200,400,800' rel='stylesheet' type='text/css'>
+
+    <script defer>
+        window.onload = function () {
+
+            (function () {
+
+                var width, height, largeHeader, canvas, ctx, points, target, animateHeader = true;
+
+                // Main
+                initHeader();
+                initAnimation();
+                addListeners();
+
+                function initHeader() {
+                    width = window.innerWidth;
+                    height = window.innerHeight;
+                    target = { x: width / 2, y: height / 2 };
+
+                    largeHeader = document.getElementById('large-header');
+                    largeHeader.style.height = height + 'px';
+
+                    canvas = document.getElementById('demo-canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    ctx = canvas.getContext('2d');
+
+                    // create points
+                    points = [];
+                    for (var x = 0; x < width; x = x + width / 20) {
+                        for (var y = 0; y < height; y = y + height / 20) {
+                            var px = x + Math.random() * width / 20;
+                            var py = y + Math.random() * height / 20;
+                            var p = { x: px, originX: px, y: py, originY: py };
+                            points.push(p);
+                        }
+                    }
+
+                    // for each point find the 5 closest points
+                    for (var i = 0; i < points.length; i++) {
+                        var closest = [];
+                        var p1 = points[i];
+                        for (var j = 0; j < points.length; j++) {
+                            var p2 = points[j]
+                            if (!(p1 == p2)) {
+                                var placed = false;
+                                for (var k = 0; k < 5; k++) {
+                                    if (!placed) {
+                                        if (closest[k] == undefined) {
+                                            closest[k] = p2;
+                                            placed = true;
+                                        }
+                                    }
+                                }
+
+                                for (var k = 0; k < 5; k++) {
+                                    if (!placed) {
+                                        if (getDistance(p1, p2) < getDistance(p1, closest[k])) {
+                                            closest[k] = p2;
+                                            placed = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        p1.closest = closest;
+                    }
+
+                    // assign a circle to each point
+                    for (var i in points) {
+                        var c = new Circle(points[i], 2 + Math.random() * 2, 'rgba(255,255,255,0.3)');
+                        points[i].circle = c;
+                    }
+                }
+
+                // Event handling
+                function addListeners() {
+                    if (!('ontouchstart' in window)) {
+                        window.addEventListener('mousemove', mouseMove);
+                    }
+                    window.addEventListener('scroll', scrollCheck);
+                    window.addEventListener('resize', resize);
+                }
+
+                function mouseMove(e) {
+                    var posx = posy = 0;
+                    if (e.pageX || e.pageY) {
+                        posx = e.pageX;
+                        posy = e.pageY;
+                    }
+                    else if (e.clientX || e.clientY) {
+                        posx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+                        posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+                    }
+                    target.x = posx;
+                    target.y = posy;
+                }
+
+                function scrollCheck() {
+                    if (document.body.scrollTop > height) animateHeader = false;
+                    else animateHeader = true;
+                }
+
+                function resize() {
+                    width = window.innerWidth;
+                    height = window.innerHeight;
+                    largeHeader.style.height = height + 'px';
+                    canvas.width = width;
+                    canvas.height = height;
+                }
+
+                // animation
+                function initAnimation() {
+                    animate();
+                    for (var i in points) {
+                        shiftPoint(points[i]);
+                    }
+                }
+
+                function animate() {
+                    if (animateHeader) {
+                        ctx.clearRect(0, 0, width, height);
+                        for (var i in points) {
+                            // detect points in range
+                            if (Math.abs(getDistance(target, points[i])) < 4000) {
+                                points[i].active = 0.3;
+                                points[i].circle.active = 0.6;
+                            } else if (Math.abs(getDistance(target, points[i])) < 20000) {
+                                points[i].active = 0.1;
+                                points[i].circle.active = 0.3;
+                            } else if (Math.abs(getDistance(target, points[i])) < 40000) {
+                                points[i].active = 0.02;
+                                points[i].circle.active = 0.1;
+                            } else {
+                                points[i].active = 0;
+                                points[i].circle.active = 0;
+                            }
+
+                            drawLines(points[i]);
+                            points[i].circle.draw();
+                        }
+                    }
+                    requestAnimationFrame(animate);
+                }
+
+                function shiftPoint(p) {
+                    TweenLite.to(p, 1 + 1 * Math.random(), {
+                        x: p.originX - 50 + Math.random() * 100,
+                        y: p.originY - 50 + Math.random() * 100, ease: Circ.easeInOut,
+                        onComplete: function () {
+                            shiftPoint(p);
+                        }
+                    });
+                }
+
+                // Canvas manipulation
+                function drawLines(p) {
+                    if (!p.active) return;
+                    for (var i in p.closest) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p.closest[i].x, p.closest[i].y);
+                        ctx.strokeStyle = 'rgba(156,217,249,' + p.active + ')';
+                        ctx.stroke();
+                    }
+                }
+
+                function Circle(pos, rad, color) {
+                    var _this = this;
+
+                    // constructor
+                    (function () {
+                        _this.pos = pos || null;
+                        _this.radius = rad || null;
+                        _this.color = color || null;
+                    })();
+
+                    this.draw = function () {
+                        if (!_this.active) return;
+                        ctx.beginPath();
+                        ctx.arc(_this.pos.x, _this.pos.y, _this.radius, 0, 2 * Math.PI, false);
+                        ctx.fillStyle = 'rgba(156,217,249,' + _this.active + ')';
+                        ctx.fill();
+                    };
+                }
+
+                // Util
+                function getDistance(p1, p2) {
+                    return Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2);
+                }
+
+            })()
+        }
+            ;
+
+
+    </script>
+    <script defer src="https://www.marcoguglie.it/Codepen/AnimatedHeaderBg/demo-1/js/EasePack.min.js"></script>
+    <script defer src="https://www.marcoguglie.it/Codepen/AnimatedHeaderBg/demo-1/js/rAF.js"></script>
+    <script defer src="https://www.marcoguglie.it/Codepen/AnimatedHeaderBg/demo-1/js/TweenLite.min.js"></script>
+
+    <script>
+
+        window.onload = function () {
+
+            function dateTime() {
+                const date = new Date();
+                let today = date.toDateString();
+                let time = date.toLocaleTimeString();
+                document.getElementById('date-time').innerHTML = '<p class="text-white" id="date">' + today + '</p><p class="text-white" id="time">' + time + '</p>';
+                setTimeout(dateTime, 1000);
+            }
+
+            function weatherBalloon(cityID) {
+                var apiKey = 'da1ec496b8a375c313541432da60b84a'; //OpenWeather API key
+                fetch('https://api.openweathermap.org/data/2.5/weather?id=' + cityID + '&appid=' + apiKey)
+                    .then(function (resp) {
+                        return resp.json()
+                    })
+                    .then(function (data) {
+                        let weatherIcon = data.weather[0].icon;
+                        let tempK = parseFloat(data.main.temp);
+                        let tempC = Math.round(tempK - 273.15);
+                        let tempF = Math.round((tempK - 273.15) * 1.8) + 32;
+                        document.getElementById('weather').innerHTML = '<p class="text-white" id="location">' + data.name + '</p><p class="text-white" id="details" ' + 'title="' + tempF + '&deg;F">' + '<img src="https://openweathermap.org/img/wn/' + weatherIcon + '.png">' + data.weather[0].description + '<span class="separator">|</span>' + tempC + '&deg;C</p>';
+                    });
+            }
+
+
+            dateTime();
+            weatherBalloon(98182); //OpenWeather city ID
+
+
+
+            let publicTools = [
+                { name: 'certificate', link: '/cert-gen/', img: '/assets/certificate-contract-svgrepo-com.svg' },
+                { name: 'CV builder', link: 'resume/', img: '/assets/resume.svg' },
+                { name: 'PDF tools', link: 'https://pdf-tools.fnx.tools/', img: '/assets/pdf.svg' },
+                { name: 'cyber chef', link: '/CyberChef_v10.8.2/', img: '/assets/cyberchef.png' },
+                { name: 'IT tools', link: 'it-tools/', img: '/assets/code-tech-dev-svgrepo-com.svg' },
+                { name: 'password tools', link: 'password/', img: '/assets/password-svgrepo-com.svg' },
+                { name: 'excalidraw', link: 'excalidraw/', img: '/assets/excalidraw.png' },
+                { name: 'drawio', link: 'drawio/', img: '/assets/drawio.png' },
+                { name: 'secret sharing', link: 'https://ots.fnx.tools/', img: '/assets/secret.svg' },
+                { name: 'URL shortener', link: 'https://s.fnx.tools/', img: '/assets/url.svg' },
+                { name: 'internet speed', link: 'speed-test', img: '/assets/gauge.svg' },
+            ];
+
+            let privateTools = [
+                { name: '2fa', link: 'https://2fa.fnx.tools', img: 'https://cdn-icons-png.flaticon.com/256/11220/11220734.png' },
+                { name: 'FileGator', link: 'https://filegator.fnx.tools', img: 'https://avatars.githubusercontent.com/u/51749128?s=200&v=4' },
+                { name: 'GitLab', link: 'https://gitlab.fnx.tools', img: 'https://yt3.googleusercontent.com/R6P5skGdZJeM1bebvt3ILeU8k-9tiqE5T198RmBH8SoGXH2gk_Lk-45uZoq6X6pW4a4c9Sqn=s900-c-k-c0x00ffffff-no-rj' },
+                { name: 'PenPot', link: 'https://PenPot.fnx.tools', img: 'https://d4.alternativeto.net/gpayjJ_wup7L1nzrdg9dt7mR730s6i4HC3mZlnEOK6s/rs:fit:280:280:0/g:ce:0:0/exar:1/YWJzOi8vZGlzdC9pY29ucy9wZW5wb3RfMjEwMDUyLnBuZw.png' },
+                { name: 'Portainer', link: 'https://Portainer.fnx.tools', img: 'https://repository-images.githubusercontent.com/725794693/3b812728-09ec-4db5-b03b-b9f48cc439e3' },
+                { name: 'Next Cloud', link: 'https://cloud.fnx.tools', img: 'https://idin9-web-files.s3.ap-southeast-1.amazonaws.com/th/wp-content/uploads/2020/03/02161822/NextCloud.png' },
+            ];
+
+            let publicToolsHtml = publicTools.map(tool => `
+                                <div class="col-lg-2 col-md-3 col-sm-6  col m-lg-4 m m-md-2 m m-sm-1 d-flex justify-content-center custom-col">
+                                    <li class="list-group-item">
+                                        <a href="${tool.link}" target="_blank" style="text-decoration: none;">
+                                            <div class="card d-flex flex-column align-items-center custom-card" style="background-color: #2A2E35; color: white;">
+                                                <img class="card-img-top mt-2" src="${tool.img}" alt="${tool.name} favicon" style="width: 4rem; height: 4rem;">
+                                                <hr class="w-100" style="border-top: 1px solid white;">
+                                                <h5 class="text-center mb-2">${tool.name}</h5>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </div>
+                                `).join('');
+
+
+            let privateToolsHtml = privateTools.map(tool => `
+            <div class="col-lg-2 col-md-3 col-sm-6 col m-lg-4 m m-md-2 m m-sm-1 d-flex justify-content-center custom-col">
+                <li class="list-group-item">
+                    <a href="${tool.link}" target="_blank" style="text-decoration: none;">
+                        <div class="card d-flex flex-column align-items-center custom-card" style="background-color: #2A2E35; color: white;">
+                            <img class="card-img-top mt-2" src="${tool.img}" alt="${tool.name} favicon" style="width: 4rem; height: 4rem;">
+                            <hr class="w-100" style="border-top: 1px solid white;">
+                            <h5 class="text-center mb-2">${tool.name}</h5>
+                        </div>
+                    </a>
+                </li>
+            </div>
+                                `).join('');
+
+            document.getElementById('private-tools').innerHTML = privateToolsHtml;
+            document.getElementById('public-tools').innerHTML = publicToolsHtml;
+
+
+
+        }
+    </script>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+</head>
+<style>
+    @media (min-width: 992px) {
+        .custom-card {
+            width: 12rem;
+        }
+    }
+
+    @media (max-width: 991px) {
+        .custom-card {
+            width: 8rem;
+        }
+    }
+
+    main {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+
+        min-height: calc(90vh - 4rem);
+    }
+
+
+    header {
+        animation: fade 1s ease-in;
+        display: none;
+        flex: 0 1 auto;
+        flex-direction: row;
+
+        padding: var(--spacing-m) var(--spacing-m) 0 var(--spacing-m);
+        position: absolute;
+        top: 0;
+        width: 100%;
+    }
+
+    #date-time,
+    #weather {
+        flex: 1 1 auto;
+    }
+
+    #weather {
+        text-align: right;
+    }
+
+    #weather img {
+        display: inline-flex;
+        margin-right: var(--spacing-xs);
+        width: 1.5rem;
+    }
+
+    #date,
+    #location {
+        color: var(--primary-link-hover-color);
+        font-weight: 700;
+    }
+
+    #time,
+    #details {
+        color: var(--primary-link-color);
+        text-transform: capitalize;
+    }
+
+    #details {
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+
+    .separator {
+        margin: 0 var(--spacing-xs);
+    }
+
+
+
+    #dock ul {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+
+        list-style-type: none;
+        column-gap: var(--spacing-m);
+        row-gap: var(--spacing-m);
+        padding: 0;
+    }
+
+    #dock a {
+        display: block;
+        fill: var(--primary-link-color);
+        transition: fill 0.125s ease-in-out;
+    }
+
+    #dock a:focus,
+    #dock a:hover {
+        animation: slime 0.75s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
+        fill: var(--primary-link-hover-color);
+        outline: none;
+    }
+
+    #dock li:nth-child(1) a:focus,
+    #dock li:nth-child(1) a:hover {
+        fill: hsl(5, 81%, 56%);
+    }
+
+    /* Gmail */
+    #dock li:nth-child(2) a:focus,
+    #dock li:nth-child(2) a:hover {
+        fill: hsl(217, 89%, 61%);
+    }
+
+    /* Google Calendar */
+    #dock li:nth-child(3) a:focus,
+    #dock li:nth-child(3) a:hover {
+        fill: hsl(44, 100%, 50%);
+    }
+
+    /* Google Keep */
+    #dock li:nth-child(4) a:focus,
+    #dock li:nth-child(4) a:hover {
+        fill: var(--primary-link-hover-color);
+    }
+
+    /* Notion */
+    #dock li:nth-child(5) a:focus,
+    #dock li:nth-child(5) a:hover {
+        fill: hsl(102, 53%, 52%);
+    }
+
+    /* Github */
+    #dock li:nth-child(6) a:focus,
+    #dock li:nth-child(6) a:hover {
+        fill: hsl(14, 89%, 53%);
+    }
+
+    /* Figma */
+
+    #dock svg {
+        height: 1.5rem;
+    }
+
+
+    #search input {
+        background-color: transparent;
+        background-position: right 1.25rem center;
+        background-repeat: no-repeat;
+        background-size: 1.5rem 1.5rem;
+        border-radius: 0.5rem;
+        color: var(--primary-font-color);
+        font-family: var(--font-sans-serif);
+        line-height: 1.5;
+        outline: 0.25rem solid transparent;
+        padding: var(--spacing-m);
+        background-image: var(--svg-search-gray);
+        border: 0.125rem solid hsl(var(--color-white-hsl) / 0.25);
+        width: 70%;
+        margin: auto;
+    }
+
+
+
+
+    #search input:focus {
+        background-color: hsl(var(--color-white-hsl) / 0.025);
+        border-color: var(--color-orange);
+        outline-color: hsl(var(--color-orange-hsl) / 0.25);
+    }
+
+
+
+    .favicon {
+        margin-right: var(--spacing-s);
+        height: 1rem;
+    }
+
+
+    .sr-only {
+        height: 1px;
+        left: -10000px;
+        overflow: hidden;
+        position: absolute;
+        top: auto;
+        width: 1px;
+
+    }
+
+    /* Responsive Media Queries */
+    @media screen and (min-width: 24em) {
+        header {
+            display: flex;
+        }
+
+
+
+
+        #dock ul {
+            column-gap: 0;
+            justify-content: space-around;
+            padding: 0;
+        }
+
+
+    }
+
+
+
+    /* Responsive Media Queries */
+    @media screen and (min-width: 24em) {
+
+
+
+
+        #dock ul {
+            column-gap: 0;
+            justify-content: space-around;
+            padding: 0;
+        }
+
+
+    }
+
+    header {
+        animation: fade 1s ease-in;
+        display: flex;
+        flex: 0 1 auto;
+        flex-direction: row;
+
+        padding: var(--spacing-m) var(--spacing-m) 0 var(--spacing-m);
+        position: absolute;
+        top: 0;
+        width: 100%;
+    }
+
+    /* Responsive Media Queries */
+    @media screen and (min-width: 24em) {
+        header {
+            display: flex;
+        }
+
+
+
+        #dock ul {
+            column-gap: 0;
+            justify-content: space-around;
+            padding: 0;
+        }
+    }
+
+
+    /* bg */
+    .large-header {
+        position: relative;
+        width: 100%;
+        background: #333;
+        overflow: hidden;
+        background-size: cover;
+        background-position: center center;
+        z-index: 1;
+    }
+
+    #large-header {
+        background-image: url('https://www.marcoguglie.it/Codepen/AnimatedHeaderBg/demo-1/img/demo-1-bg.jpg');
+    }
+
+    .main-title {
+        position: absolute;
+        margin: 0;
+        padding: 0;
+        color: #f9f1e9;
+        text-align: center;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate3d(-50%, -50%, 0);
+        transform: translate3d(-50%, -50%, 0);
+    }
+
+    .demo-1 .main-title {
+        text-transform: uppercase;
+        font-size: 4.2em;
+        letter-spacing: 0.1em;
+    }
+
+    .main-title .thin {
+        font-weight: 200;
+    }
+
+    @media only screen and (max-width : 768px) {
+        .demo-1 .main-title {
+            font-size: 3em;
+        }
+    }
+</style>
+<main id="large-header" class="large-header mx-5">
+    <div>
+        <canvas id="demo-canvas"></canvas>
+        <header class="mb-2">
+            <section id="date-time">
+                <h2 class="sr-only">Date &amp; Time</h2>
+            </section>
+            <section id="weather">
+                <h2 class="sr-only">Location &amp; Weather</h2>
+            </section>
+        </header>
+        <section class="d-flex flex-column  w-100 px-lg-5 px-3 justify-content-center">
+            <aside class="d-flex justify-content-around mt-5">
+                <img src="fnx-colorless-wide.svg" class="my-4" style="height: 10rem;">
+            </aside>
+            <nav id="dock">
+            </nav>
+            <section id="search">
+                <h2 class="sr-only">Search</h2>
+                <form action="https://www.google.com/search" method="get" class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="text" id="q" name="q" autofocus placeholder="Search"
+                        aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0 sr-only" tabindex="-1">Search</button>
+                </form>
+            </section>
+        </section>
+        <h2 class="mt-4 text-white"
+            style="font-size: 2rem; font-weight: bold; text-align: center; text-transform: uppercase; letter-spacing: 0.1rem;">
+            Public Tools
+        </h2>
+        <ul id="public-tools" class="text-white row m-2 justify-content-center align-items-center p-0"></ul>
+
+        <h2 class="mt-4 text-white"
+            style="font-size: 2rem; font-weight: bold; text-align: center; text-transform: uppercase; letter-spacing: 0.1rem;">
+            Private Tools
+        </h2>
+        <ul id="private-tools" class="text-white row m-2 justify-content-center align-items-center p-0"></ul>
+
+</main>
+</div>
+
+</html>
