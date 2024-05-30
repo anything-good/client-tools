@@ -41,33 +41,30 @@
             background: transparent;
             border-radius: 12px;
             padding: 0.5rem;
-            box-shadow: 0 0px 10px rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(0.5rem);
-            -webkit-backdrop-filter: blur(5px);
+            box-shadow: 0 0px 10px rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(0.8rem);
         }
 
         .custom-card:hover {
             /* Add this line */
         }
 
+        .custom-card {
+            width: 12rem;
+        }
 
         @media (min-width: 992px) {
-            .custom-card {
-                width: 12rem;
-            }
+
 
             .main-title {
-                top: 120vh;
+                top: calc(500px + 75vh);
             }
         }
 
         @media (max-width: 991px) {
-            .custom-card {
-                width: 8rem;
-            }
 
             .main-title {
-                top: 120%;
+                top: calc(2800px + 70vh);
             }
         }
 
