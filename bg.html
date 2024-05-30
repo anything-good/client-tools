@@ -1,0 +1,951 @@
+<head>
+    <title>Fnx Tools</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="32x32" href="fnx-trans-tall.svg">
+    <link rel="icon" type="image/png" sizes="16x16" href="fnx-trans-tall.svg">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://www.marcoguglie.it/Codepen/AnimatedHeaderBg/demo-1/css/demo.css">
+    <link href='https://fonts.googleapis.com/css?family=Raleway:200,400,800' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        /* make all text in page with box-shadow */
+        body {
+            color: black;
+            box-shadow: 0 0px 10px rgba(0, 0, 0, 0.7);
+
+        }
+
+        .large-header {
+            position: relative;
+            width: 100%;
+            background: #252525;
+            overflow: auto;
+            background-size: cover;
+            z-index: 1;
+        }
+
+        .main-title {
+            position: absolute;
+            color: #f9f1e9;
+            text-align: center;
+            left: 50%;
+            width: 100%;
+            -webkit-transform: translate3d(-50%, -50%, 0);
+            transform: translate3d(-50%, -50%, 0);
+        }
+
+        .custom-card {
+            /* From https://css.glass */
+            background: transparent;
+            border-radius: 12px;
+            padding: 0.5rem;
+            box-shadow: 0 0px 10px rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(0.5rem);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .custom-card:hover {
+            /* Add this line */
+        }
+
+
+        @media (min-width: 992px) {
+            .custom-card {
+                width: 12rem;
+            }
+
+            .main-title {
+                top: 120vh;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .custom-card {
+                width: 8rem;
+            }
+
+            .main-title {
+                top: 120%;
+            }
+        }
+
+        main {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            animation: fade 1s ease-in;
+            display: flex;
+            flex: 0 1 auto;
+            flex-direction: row;
+            padding: var(--spacing-m) var(--spacing-m) 0 var(--spacing-m);
+            position: absolute;
+            top: 0;
+            width: 100%;
+
+        }
+
+        #weather {
+            flex: 1 1 auto;
+        }
+
+        #weather {
+            text-align: right;
+        }
+
+        #weather img {
+            display: inline-flex;
+            margin-right: var(--spacing-xs);
+            width: 1.5rem;
+        }
+
+        #date,
+        #location {
+            color: var(--primary-link-hover-color);
+            font-weight: 700;
+        }
+
+        #time,
+        #details {
+            color: var(--primary-link-color);
+            text-transform: capitalize;
+        }
+
+        #details {
+            align-items: center;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+        }
+
+        .separator {
+            margin: 0 var(--spacing-xs);
+        }
+
+        #dock ul {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+
+            list-style-type: none;
+            column-gap: var(--spacing-m);
+            row-gap: var(--spacing-m);
+            padding: 0;
+        }
+
+        #dock a {
+            display: block;
+            fill: var(--primary-link-color);
+            transition: fill 0.125s ease-in-out;
+        }
+
+
+        #search input {
+            background-color: transparent;
+            background-position: right 1.25rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5rem 1.5rem;
+            border-radius: 0.5rem;
+            color: var(--primary-font-color);
+            font-family: var(--font-sans-serif);
+            line-height: 1;
+            outline: 0.25rem solid transparent;
+            padding: var(--spacing-m);
+            background-image: var(--svg-search-gray);
+            border: 0.125rem solid hsl(var(--color-white-hsl) / 0.25);
+            width: 70%;
+            margin: auto;
+        }
+
+        #search input:focus {
+            background-color: hsl(var(--color-white-hsl) / 0.025);
+            border-color: var(--color-orange);
+            outline-color: hsl(var(--color-orange-hsl) / 0.25);
+        }
+
+        .favicon {
+            margin-right: var(--spacing-s);
+            height: 1rem;
+        }
+
+        .sr-only {
+            height: 1px;
+            left: -10000px;
+            overflow: hidden;
+            position: absolute;
+            top: auto;
+            width: 1px;
+        }
+
+        /* Responsive Media Queries */
+        @media screen and (min-width: 24em) {
+            #dock ul {
+                column-gap: 0;
+                justify-content: space-around;
+                padding: 0;
+            }
+        }
+
+        /* bg */
+        #large-header {
+            background-image: url('nasb.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: bottom;
+
+            /* show half of the image  */
+        }
+
+        .demo-1 .main-title {
+            text-transform: uppercase;
+            font-size: 2rem;
+            letter-spacing: 0.1em;
+        }
+
+        .main-title .thin {
+            font-weight: 200;
+        }
+
+        @media only screen and (max-width : 768px) {
+            .demo-1 .main-title {
+                font-size: 3em;
+            }
+        }
+    </style>
+
+    <style>
+        /*works janky on mobile :<*/
+        .container {
+            position: relative;
+            width: 190px;
+            height: 220px;
+            transition: 200ms;
+        }
+
+        .container:active {
+            width: 180px;
+            height: 245px;
+        }
+
+        #card {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            display: flex;
+            align-items: center;
+            border-radius: 12px;
+            transition: 700ms;
+            /* background: linear-gradient(43deg, #eb9e2f 0%, #f68f4f 50%, red 100%); */
+        }
+
+        .subtitle {
+            transform: translate(-120px, 130px);
+            color: rgb(255, 166, 0);
+            font-weight: bold;
+            text-shadow: 0 0px 10px rgba(0, 0, 0, 0.7);
+            width: 100%;
+        }
+
+        .title {
+            opacity: 0;
+            transition-duration: 300ms;
+            transition-timing-function: ease-in-out-out;
+            transition-delay: 100ms;
+            position: fixed;
+            font-weight: bold;
+        }
+
+        .tracker:hover~#card .title {
+            opacity: 1;
+        }
+
+        #icon {
+            width: 100px;
+            height: 100px;
+            margin: auto;
+            margin-top: 30px;
+            display: block;
+            /* align to the top */
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+
+        }
+
+        #prompt,
+        #desc-prompt {
+            bottom: 8px;
+            left: 12px;
+            z-index: 20;
+            font-size: 16px;
+            font-weight: bold;
+            transition: 300ms ease-in-out-out;
+            position: absolute;
+        }
+
+        #prompt {
+            font-size: 20px;
+        }
+
+        .tracker {
+            position: absolute;
+            z-index: 200;
+            width: 100%;
+            height: 100%;
+        }
+
+        .tracker:hover {
+            cursor: pointer;
+        }
+
+        .tracker:hover~#card #prompt {
+            opacity: 0;
+        }
+
+        .tracker:hover~#card {
+            transition: 300ms;
+            filter: brightness(1.1);
+        }
+
+        .container:hover #card::before {
+            transition: 200ms;
+            content: '';
+            opacity: 80%;
+        }
+
+        .canvas {
+            perspective: 800px;
+            inset: 0;
+            z-index: 200;
+            position: absolute;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+            gap: 0px 0px;
+            grid-template-areas: "tr-1 tr-2 tr-3 tr-4 tr-5"
+                "tr-6 tr-7 tr-8 tr-9 tr-10"
+                "tr-11 tr-12 tr-13 tr-14 tr-15"
+                "tr-16 tr-17 tr-18 tr-19 tr-20"
+                "tr-21 tr-22 tr-23 tr-24 tr-25";
+        }
+
+        #card::before {
+            content: '';
+            backdrop-filter: blur(0.25rem);
+            opacity: 30%;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            z-index: -1;
+            transition: 200ms;
+        }
+
+        .tr-1 {
+            grid-area: tr-1;
+        }
+
+        .tr-2 {
+            grid-area: tr-2;
+        }
+
+        .tr-3 {
+            grid-area: tr-3;
+        }
+
+        .tr-4 {
+            grid-area: tr-4;
+        }
+
+        .tr-5 {
+            grid-area: tr-5;
+        }
+
+        .tr-6 {
+            grid-area: tr-6;
+        }
+
+        .tr-7 {
+            grid-area: tr-7;
+        }
+
+        .tr-8 {
+            grid-area: tr-8;
+        }
+
+        .tr-9 {
+            grid-area: tr-9;
+        }
+
+        .tr-10 {
+            grid-area: tr-10;
+        }
+
+        .tr-11 {
+            grid-area: tr-11;
+        }
+
+        .tr-12 {
+            grid-area: tr-12;
+        }
+
+        .tr-13 {
+            grid-area: tr-13;
+        }
+
+        .tr-14 {
+            grid-area: tr-14;
+        }
+
+        .tr-15 {
+            grid-area: tr-15;
+        }
+
+        .tr-16 {
+            grid-area: tr-16;
+        }
+
+        .tr-17 {
+            grid-area: tr-17;
+        }
+
+        .tr-18 {
+            grid-area: tr-18;
+        }
+
+        .tr-19 {
+            grid-area: tr-19;
+        }
+
+        .tr-20 {
+            grid-area: tr-20;
+        }
+
+        .tr-21 {
+            grid-area: tr-21;
+        }
+
+        .tr-22 {
+            grid-area: tr-22;
+        }
+
+        .tr-23 {
+            grid-area: tr-23;
+        }
+
+        .tr-24 {
+            grid-area: tr-24;
+        }
+
+        .tr-25 {
+            grid-area: tr-25;
+        }
+
+        .tr-1:hover~#card {
+            transition: 125ms ease-in-out;
+            transform: rotateX(20deg) rotateY(-10deg) rotateZ(0deg);
+        }
+
+        .tr-2:hover~#card {
+            transition: 125ms ease-in-out;
+            transform: rotateX(20deg) rotateY(-5deg) rotateZ(0deg);
+        }
+
+        .tr-3:hover~#card {
+            transition: 125ms ease-in-out;
+            transform: rotateX(20deg) rotateY(0deg) rotateZ(0deg);
+        }
+
+        .tr-4:hover~#card {
+            transition: 125ms ease-in-out;
+            transform: rotateX(20deg) rotateY(5deg) rotateZ(0deg);
+        }
+
+        .tr-5:hover~#card {
+            transition: 125ms ease-in-out;
+            transform: rotateX(20deg) rotateY(10deg) rotateZ(0deg);
+        }
+
+        .tr-6:hover~#card {
+            transition: 125ms ease-in-out;
+            transform: rotateX(10deg) rotateY(-10deg) rotateZ(0deg);
+        }
+
+        .tr-7:hover~#card {
+            transition: 125ms ease-in-out;
+            transform: rotateX(10deg) rotateY(-5deg) rotateZ(0deg);
+        }
+
+        .tr-8:hover~#card {
+            transition: 125ms ease-in-out;
+            transform: rotateX(10deg) rotateY(0deg) rotateZ(0deg);
+        }
+
+        .tr-9:hover~#card {
+            transition: 125ms ease-in-out;
+            transform: rotateX(10deg) rotateY(5deg) rotateZ(0deg);
+        }
+
+        .tr-10:hover~#card {
+            transition: 125ms ease-in-out;
+            transform: rotateX(10deg) rotateY(10deg) rotateZ(0deg);
+        }
+
+        .tr-11:hover~#card {
+            transition: 125ms ease-in-out;
+            transform: rotateX(0deg) rotateY(-10deg) rotateZ(0deg);
+        }
+
+        .tr-12:hover~#card {
+            transition: 125ms ease-in-out;
+            transform: rotateX(0deg) rotateY(-5deg) rotateZ(0deg);
+        }
+
+        .tr-13:hover~#card {
+            transition: 125ms ease-in-out;
+            transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+        }
+
+        .tr-14:hover~#card {
+            transition: 125ms ease-in-out;
+            transform: rotateX(0deg) rotateY(5deg) rotateZ(0deg);
+        }
+
+        .tr-15:hover~#card {
+            transition: 125ms ease-in-out;
+            transform: rotateX(0deg) rotateY(10deg) rotateZ(0deg);
+        }
+
+        .tr-16:hover~#card {
+            transition: 125ms ease-in-out;
+            transform: rotateX(-10deg) rotateY(-10deg) rotateZ(0deg);
+        }
+
+        .tr-17:hover~#card {
+            transition: 125ms ease-in-out;
+            transform: rotateX(-10deg) rotateY(-5deg) rotateZ(0deg);
+        }
+
+        .tr-18:hover~#card {
+            transition: 125ms ease-in-out;
+            transform: rotateX(-10deg) rotateY(0deg) rotateZ(0deg);
+        }
+
+        .tr-19:hover~#card {
+            transition: 125ms ease-in-out;
+            transform: rotateX(-10deg) rotateY(5deg) rotateZ(0deg);
+        }
+
+        .tr-20:hover~#card {
+            transition: 125ms ease-in-out;
+            transform: rotateX(-10deg) rotateY(10deg) rotateZ(0deg);
+        }
+
+        .tr-21:hover~#card {
+            transition: 125ms ease-in-out;
+            transform: rotateX(-20deg) rotateY(-10deg) rotateZ(0deg);
+        }
+
+        .tr-22:hover~#card {
+            transition: 125ms ease-in-out;
+            transform: rotateX(-20deg) rotateY(-5deg) rotateZ(0deg);
+        }
+
+        .tr-23:hover~#card {
+            transition: 125ms ease-in-out;
+            transform: rotateX(-20deg) rotateY(0deg) rotateZ(0deg);
+        }
+
+        .tr-24:hover~#card {
+            transition: 125ms ease-in-out;
+            transform: rotateX(-20deg) rotateY(5deg) rotateZ(0deg);
+        }
+
+        .tr-25:hover~#card {
+            transition: 125ms ease-in-out;
+            transform: rotateX(-20deg) rotateY(10deg) rotateZ(0deg);
+        }
+
+        .noselect {
+            -webkit-touch-callout: none;
+            /* iOS Safari */
+            -webkit-user-select: none;
+            /* Safari */
+            /* Konqueror HTML */
+            -moz-user-select: none;
+            /* Old versions of Firefox */
+            -ms-user-select: none;
+            /* Internet Explorer/Edge */
+            user-select: none;
+        }
+    </style>
+
+</head>
+
+<script defer>
+    window.onload = function () {
+
+        (function () {
+            function dateTime() {
+                const date = new Date();
+                let today = date.toDateString();
+                let time = date.toLocaleTimeString();
+                document.getElementById('date-time').innerHTML = '<p class="text-black" id="date">' + today + '</p><p class="text-black" id="time">' + time + '</p>';
+                setTimeout(dateTime, 1000);
+            }
+
+            function weatherBalloon(cityID) {
+                var apiKey = 'da1ec496b8a375c313541432da60b84a'; //OpenWeather API key
+                fetch('https://api.openweathermap.org/data/2.5/weather?id=' + cityID + '&appid=' + apiKey)
+                    .then(function (resp) {
+                        return resp.json()
+                    })
+                    .then(function (data) {
+                        let weatherIcon = data.weather[0].icon;
+                        let tempK = parseFloat(data.main.temp);
+                        let tempC = Math.round(tempK - 273.15);
+                        let tempF = Math.round((tempK - 273.15) * 1.8) + 32;
+                        document.getElementById('weather').innerHTML = '<p class="text-black" id="location">' + data.name + '</p><p class="text-black" id="details" ' + 'title="' + tempF + '&deg;F">' + '<img src="https://openweathermap.org/img/wn/' + weatherIcon + '.png">' + data.weather[0].description + '<span class="separator">|</span>' + tempC + '&deg;C</p>';
+                    });
+            }
+
+
+            dateTime();
+            weatherBalloon(98182); //OpenWeather city ID
+
+
+            let publicTools = [
+                { name: 'Certificate', link: '/cert-gen/', img: '/assets/certificate-contract-svgrepo-com.svg', category: 'Academic', description: 'Generate certificates' },
+                { name: 'CV builder', link: 'https://open-resume.fnx.tools/', img: '/assets/resume.svg', category: 'Productivity', description: 'Build your CV' },
+                { name: 'cyber chef', link: '/CyberChef_v10.8.2/', img: '/assets/cyberchef.png', category: 'Security', description: 'Perform various cryptographic operations' },
+                { name: 'Reactive Resume', link: 'https://reactive-resume.fnx.tools/', img: '/assets/reactive-resume.svg', category: 'Productivity', description: 'Build your CV' },
+                { name: 'PDF tools', link: 'https://pdf-tools.fnx.tools/', img: '/assets/pdf.svg', category: 'Productivity', description: 'Manipulate PDF files' },
+                { name: 'IT tools', link: 'it-tools/', img: '/assets/code-tech-dev-svgrepo-com.svg', category: 'Development', description: 'Collection of IT tools' },
+                { name: 'Password tools', link: 'password/', img: '/assets/password-svgrepo-com.svg', category: 'Security', description: 'Generate and manage passwords' },
+                { name: 'Excalidraw', link: 'excalidraw/', img: '/assets/excalidraw.png', category: 'Design', description: 'Create diagrams and sketches' },
+                { name: 'Drawio', link: 'drawio/', img: '/assets/drawio.png', category: 'Design', description: 'Create diagrams and flowcharts' },
+                { name: 'Secret sharing', link: 'https://ots.fnx.tools/', img: '/assets/secret.svg', category: 'Security', description: 'Share secrets securely' },
+                { name: 'URL shortener', link: 'https://s.fnx.tools/', img: '/assets/url.svg', category: 'Productivity', description: 'Shorten long URLs' },
+                { name: 'Internet speed', link: 'speed-test', img: '/assets/gauge.svg', category: 'Network', description: 'Test your internet speed' },
+            ];
+
+            let privateTools = [
+                { name: '2fa', link: 'https://2fa.fnx.tools', img: 'https://cdn-icons-png.flaticon.com/256/11220/11220734.png', category: 'Security', description: 'Enable two-factor authentication' },
+                { name: 'GitLab', link: 'https://gitlab.fnx.tools', img: 'https://yt3.googleusercontent.com/R6P5skGdZJeM1bebvt3ILeU8k-9tiqE5T198RmBH8SoGXH2gk_Lk-45uZoq6X6pW4a4c9Sqn=s900-c-k-c0x00ffffff-no-rj', category: 'Development', description: 'Collaborate on Git repositories' },
+                { name: 'PenPot', link: 'https://PenPot.fnx.tools', img: 'https://d4.alternativeto.net/gpayjJ_wup7L1nzrdg9dt7mR730s6i4HC3mZlnEOK6s/rs:fit:280:280:0/g:ce:0:0/exar:1/YWJzOi8vZGlzdC9pY29ucy9wZW5wb3RfMjEwMDUyLnBuZw.png', category: 'Design', description: 'Create and collaborate on design projects' },
+                { name: 'Portainer', link: 'https://Portainer.fnx.tools', img: 'https://repository-images.githubusercontent.com/725794693/3b812728-09ec-4db5-b03b-b9f48cc439e3', category: 'DevOps', description: 'Manage Docker containers' },
+                { name: 'Next Cloud', link: 'https://cloud.fnx.tools', img: 'https://idin9-web-files.s3.ap-southeast-1.amazonaws.com/th/wp-content/uploads/2020/03/02161822/NextCloud.png', category: 'Cloud', description: 'Store and sync files in the cloud' },
+                { name: 'FNX Portal', link: 'https://portal.fnx.codes', img: 'assets/portal.png', category: 'Projects', description: 'Projects manager' },
+                { name: 'Openproject', link: 'https://openproject.fnx.codes', img: 'assets/openproject.png', category: 'Projects', description: 'Projects manager' },
+            ];
+
+            let publicToolsHtml = makeToolsString(publicTools);
+
+            function makeToolsString(tools) {
+                return tools.map(tool => `
+            <a class="container noselect  m-5 text-black" href="${tool.link}" target="_blank">
+<div class="canvas ">
+<div class="tracker tr-1"></div>
+<div class="tracker tr-2"></div>
+<div class="tracker tr-3"></div>
+<div class="tracker tr-4"></div>
+<div class="tracker tr-5"></div>
+<div class="tracker tr-6"></div>
+<div class="tracker tr-7"></div>
+<div class="tracker tr-8"></div>
+<div class="tracker tr-9"></div>
+<div class="tracker tr-10"></div>
+<div class="tracker tr-11"></div>
+<div class="tracker tr-12"></div>
+<div class="tracker tr-13"></div>
+<div class="tracker tr-14"></div>
+<div class="tracker tr-15"></div>
+<div class="tracker tr-16"></div>
+<div class="tracker tr-17"></div>
+<div class="tracker tr-18"></div>
+<div class="tracker tr-19"></div>
+<div class="tracker tr-20"></div>
+<div class="tracker tr-21"></div>
+<div class="tracker tr-22"></div>
+<div class="tracker tr-23"></div>
+<div class="tracker tr-24"></div>
+<div class="tracker tr-25"></div>
+<div id="card" class="custom-card">
+
+    <div class=""></div>
+        <div class="subtitle">
+    </div>
+    <img src="${tool.img}" class="img-fluid w-50" id="icon">
+    <p id="prompt">${tool.name}</p>
+    <div class="title" id="desc-prompt">${tool.description}</div>
+    <div class="subtitle ">
+        ${tool.category}
+    </div>
+
+</div>
+</div>
+</a>
+
+`).join('');
+
+            }
+
+
+
+            let privateToolsHtml = makeToolsString(privateTools);
+
+            privateTools.map(tool => {
+
+                privateToolsHtml.innerHTML += ``;
+            }).join('');
+
+
+            document.getElementById('private-tools').innerHTML = privateToolsHtml;
+            document.getElementById('public-tools').innerHTML = publicToolsHtml;
+
+
+
+            var width, height, largeHeader, canvas, ctx, points, target, animateHeader = true;
+
+            // Main
+            initHeader();
+            initAnimation();
+            addListeners();
+
+            function initHeader() {
+                width = window.innerWidth;
+                height = window.innerHeight;
+                target = { x: width / 2, y: height / 2 };
+
+                largeHeader = document.getElementById('large-header');
+                largeHeader.style.height = height + 'px';
+
+                canvas = document.getElementById('demo-canvas');
+                canvas.width = width;
+                canvas.height = height;
+                ctx = canvas.getContext('2d');
+
+                // create points
+                points = [];
+                for (var x = 0; x < width; x = x + width / 20) {
+                    for (var y = 0; y < height; y = y + height / 20) {
+                        var px = x + Math.random() * width / 20;
+                        var py = y + Math.random() * height / 20;
+                        var p = { x: px, originX: px, y: py, originY: py };
+                        points.push(p);
+                    }
+                }
+
+                // for each point find the 5 closest points
+                for (var i = 0; i < points.length; i++) {
+                    var closest = [];
+                    var p1 = points[i];
+                    for (var j = 0; j < points.length; j++) {
+                        var p2 = points[j]
+                        if (!(p1 == p2)) {
+                            var placed = false;
+                            for (var k = 0; k < 5; k++) {
+                                if (!placed) {
+                                    if (closest[k] == undefined) {
+                                        closest[k] = p2;
+                                        placed = true;
+                                    }
+                                }
+                            }
+
+                            for (var k = 0; k < 5; k++) {
+                                if (!placed) {
+                                    if (getDistance(p1, p2) < getDistance(p1, closest[k])) {
+                                        closest[k] = p2;
+                                        placed = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    p1.closest = closest;
+                }
+
+                // assign a circle to each point
+                for (var i in points) {
+                    var c = new Circle(points[i], 2 + Math.random() * 2, 'rgba(255,255,255,0.3)');
+                    points[i].circle = c;
+                }
+            }
+
+            // Event handling
+            function addListeners() {
+                if (!('ontouchstart' in window)) {
+                    window.addEventListener('mousemove', mouseMove);
+                }
+                window.addEventListener('scroll', scrollCheck);
+                window.addEventListener('resize', resize);
+            }
+
+            function mouseMove(e) {
+                var posx = posy = 0;
+                if (e.pageX || e.pageY) {
+                    posx = e.pageX;
+                    posy = e.pageY;
+                }
+                else if (e.clientX || e.clientY) {
+                    posx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+                    posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+                }
+                target.x = posx;
+                target.y = posy;
+            }
+
+            function scrollCheck() {
+                if (document.body.scrollTop > height) animateHeader = false;
+                else animateHeader = true;
+            }
+
+            function resize() {
+                width = window.innerWidth;
+                height = window.innerHeight;
+                largeHeader.style.height = height + 'px';
+                canvas.width = width;
+                canvas.height = height;
+            }
+
+            // animation
+            function initAnimation() {
+                animate();
+                for (var i in points) {
+                    shiftPoint(points[i]);
+                }
+            }
+
+            function animate() {
+                if (animateHeader) {
+                    ctx.clearRect(0, 0, width, height);
+                    for (var i in points) {
+                        // detect points in range
+                        if (Math.abs(getDistance(target, points[i])) < 4000) {
+                            points[i].active = 0.3;
+                            points[i].circle.active = 0.6;
+                        } else if (Math.abs(getDistance(target, points[i])) < 20000) {
+                            points[i].active = 0.1;
+                            points[i].circle.active = 0.3;
+                        } else if (Math.abs(getDistance(target, points[i])) < 40000) {
+                            points[i].active = 0.02;
+                            points[i].circle.active = 0.1;
+                        } else {
+                            points[i].active = 0;
+                            points[i].circle.active = 0;
+                        }
+
+                        drawLines(points[i]);
+                        points[i].circle.draw();
+                    }
+                }
+                requestAnimationFrame(animate);
+            }
+
+            function shiftPoint(p) {
+                TweenLite.to(p, 1 + 1 * Math.random(), {
+                    x: p.originX - 50 + Math.random() * 100,
+                    y: p.originY - 50 + Math.random() * 100, ease: Circ.easeInOut,
+                    onComplete: function () {
+                        shiftPoint(p);
+                    }
+                });
+            }
+
+            // Canvas manipulation
+            function drawLines(p) {
+                if (!p.active) return;
+                for (var i in p.closest) {
+                    ctx.beginPath();
+                    ctx.moveTo(p.x, p.y);
+                    ctx.lineTo(p.closest[i].x, p.closest[i].y);
+                    ctx.strokeStyle = 'rgba(156,217,249,' + p.active + ')';
+                    ctx.stroke();
+                }
+            }
+
+            function Circle(pos, rad, color) {
+                var _this = this;
+
+                // constructor
+                (function () {
+                    _this.pos = pos || null;
+                    _this.radius = rad || null;
+                    _this.color = color || null;
+                })();
+
+                this.draw = function () {
+                    if (!_this.active) return;
+                    ctx.beginPath();
+                    ctx.arc(_this.pos.x, _this.pos.y, _this.radius, 0, 2 * Math.PI, false);
+                    ctx.fillStyle = 'rgba(156,217,249,' + _this.active + ')';
+                    ctx.fill();
+                };
+            }
+
+            // Util
+            function getDistance(p1, p2) {
+                return Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2);
+            }
+
+        })()
+    }
+        ;
+
+
+</script>
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+<script defer src="https://www.marcoguglie.it/Codepen/AnimatedHeaderBg/demo-1/js/EasePack.min.js"></script>
+<script defer src="https://www.marcoguglie.it/Codepen/AnimatedHeaderBg/demo-1/js/rAF.js"></script>
+<script defer src="https://www.marcoguglie.it/Codepen/AnimatedHeaderBg/demo-1/js/TweenLite.min.js"></script>
+
+
+<main id="large-header" class="large-header">
+    <canvas id="demo-canvas"></canvas>
+    <div class="main-title">
+        <header class="mb-2">
+            <section id="date-time">
+                <h2 class="sr-only">Date &amp; Time</h2>
+            </section>
+            <section id="weather">
+                <h2 class="sr-only">Location &amp; Weather</h2>
+            </section>
+        </header>
+        <section class="d-flex flex-column  w-100 px-lg-5 px-3 justify-content-center">
+            <aside class="d-flex justify-content-around mt-5">
+                <img src="fnx-colorless-wide.svg" class="my-4" style="height: 8rem;">
+            </aside>
+            <nav id="dock">
+            </nav>
+            <section id="search">
+                <h2 class="sr-only">Search</h2>
+                <form action="https://www.google.com/search" method="get" class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="text" id="q" name="q" autofocus placeholder="Search"
+                        aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0 sr-only" tabindex="-1">Search</button>
+                </form>
+            </section>
+        </section>
+        <h2 class="mt-2      text-black"
+            style="font-size: 2rem; font-weight: bold; text-align: center; text-transform: uppercase; letter-spacing: 0.1rem;">
+            Public Tools
+        </h2>
+        <ul id="public-tools" class="text-black row m-2 justify-content-center align-items-center p-0"></ul>
+
+        <h2 class="mt-4 text-black"
+            style="font-size: 2rem; font-weight: bold; text-align: center; text-transform: uppercase; letter-spacing: 0.1rem;">
+            Private Tools
+        </h2>
+        <ul id="private-tools" class="text-black row m-2 justify-content-center align-items-center p-0"></ul>
+
+    </div>
+
+</main>
