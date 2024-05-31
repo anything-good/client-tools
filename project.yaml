@@ -1,125 +1,48 @@
-version: '3.8'
+  version: '3.7'
 
-networks:
-  frontend-network:
-  backend-network:
+  services:
+    app:
+      build:
+        context: .
+      volumes:
+        - ./polr:/var/www/polr
+      depends_on:
+        - db
+      networks:
+        - frontend-network
 
-volumes:
-  pgdata:
-  opdata:
-  assets:
+    web:
+      image: nginx:latest
+      volumes:
+        - ./polr:/var/www/polr
+        - ./polr-nginx.conf:/etc/nginx/conf.d/default.conf
+      expose:
+        - 80
+      depends_on:
+        - app
+      networks:
+        - frontend-network
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.polr.rule=Host(`url-short.fnx.tools`)"
+        - "traefik.http.routers.polr.entrypoints=web"
+        - "traefik.http.services.polr.loadbalancer.server.port=80"
 
-x-op-restart-policy: &restart_policy
-  restart: unless-stopped
-x-op-image: &image
-  image: openproject/openproject:${TAG:-14-slim}
-x-op-app: &app
-  <<: [*image, *restart_policy]
-  environment:
-    OPENPROJECT_HTTPS: "${OPENPROJECT_HTTPS:-true}"
-    OPENPROJECT_HOST__NAME: "${OPENPROJECT_HOST__NAME:-localhost:8080}"
-    OPENPROJECT_HSTS: "${OPENPROJECT_HSTS:-true}"
-    RAILS_CACHE_STORE: "memcache"
-    OPENPROJECT_CACHE__MEMCACHE__SERVER: "cache:11211"
-    OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
-    DATABASE_URL: "${DATABASE_URL:-postgres://postgres:p4ssw0rd@db/openproject?pool=20&encoding=unicode&reconnect=true}"
-    RAILS_MIN_THREADS: ${RAILS_MIN_THREADS:-4}
-    RAILS_MAX_THREADS: ${RAILS_MAX_THREADS:-16}
-    IMAP_ENABLED: "${IMAP_ENABLED:-false}"
+    db:
+      image: mariadb:10.5
+      environment:
+        MYSQL_ROOT_PASSWORD: rootpassword
+        MYSQL_DATABASE: polrdb
+        MYSQL_USER: polruser
+        MYSQL_PASSWORD: polrpassword
+      volumes:
+        - /fenix/url_short/db_data:/var/lib/mysql
+      networks:
+        - frontend-network
+
+  networks:
+    frontend-network:
+      external : true
+
   volumes:
-    - "${OPDATA:-opdata}:/var/openproject/assets"
-
-services:
-  db:
-    image: postgres:13
-    <<: *restart_policy
-    stop_grace_period: "3s"
-    volumes:
-      - "${PGDATA:-pgdata}:/var/lib/postgresql/data"
-    environment:
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-p4ssw0rd}
-      POSTGRES_DB: openproject
-    networks:
-      - backend-network
-
-  cache:
-    image: memcached
-    <<: *restart_policy
-    networks:
-      - backend-network
-
-  # traefik:
-  #   image: traefik:v2.5
-  #   <<: *restart_policy
-  #   command:
-  #     - "--api.insecure=true"
-  #     - "--providers.docker=true"
-  #     - "--entrypoints.web.address=:80"
-  #     - "--entrypoints.websecure.address=:443"
-  #     - "--certificatesresolvers.myresolver.acme.httpchallenge=true"
-  #     - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
-  #     - "--certificatesresolvers.myresolver.acme.email=${EMAIL:-example@project.fnx.tools}"
-  #     - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
-  #   ports:
-  #     - "80:80"
-  #     - "443:443"
-  #   volumes:
-  #     - "./letsencrypt:/letsencrypt"
-  #     - "/var/run/docker.sock:/var/run/docker.sock:ro"
-  #   networks:
-  #     - frontend-network
-
-  web:
-    <<: *app
-    command: "./docker/prod/web"
-    networks:
-      - frontend-network
-      - backend-network
-    depends_on:
-      - db
-      - cache
-      - seeder
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.web.rule=Host(`${DOMAIN:-project.fnx.tools}`)
-      - traefik.http.routers.web.entrypoints=websecure
-      - traefik.http.routers.web.tls.certresolver=myresolver
-      - traefik.http.services.web.loadbalancer.server.port=80
-    volumes:
-      - assets:/app/public
-
-  autoheal:
-    image: willfarrell/autoheal:1.2.0
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock"
-    environment:
-      AUTOHEAL_CONTAINER_LABEL: autoheal
-      AUTOHEAL_START_PERIOD: 600
-      AUTOHEAL_INTERVAL: 30
-
-  worker:
-    <<: *app
-    command: "./docker/prod/worker"
-    networks:
-      - backend-network
-    depends_on:
-      - db
-      - cache
-      - seeder
-
-  cron:
-    <<: *app
-    command: "./docker/prod/cron"
-    networks:
-      - backend-network
-    depends_on:
-      - db
-      - cache
-      - seeder
-
-  seeder:
-    <<: *app
-    command: "./docker/prod/seeder"
-    restart: on-failure
-    networks:
-      - backend-network
+    db_data:
