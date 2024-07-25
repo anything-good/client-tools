@@ -41,8 +41,8 @@
             background: transparent;
             border-radius: 12px;
             padding: 0.5rem;
-            box-shadow: 0 0px 10px rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(0.8rem);
+            box-shadow: 0 0px 10px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(0.5rem);
         }
 
         .custom-card:hover {
@@ -57,14 +57,14 @@
 
 
             .main-title {
-                top: calc(500px + 75vh);
+                top: calc(500px + 55vh);
             }
         }
 
         @media (max-width: 991px) {
 
             .main-title {
-                top: calc(2800px + 70vh);
+                top: calc(2800px + 50vh);
             }
         }
 
@@ -279,8 +279,6 @@
         #prompt,
         #desc-prompt {
             bottom: 8px;
-            left: 20%;
-            z-index: 20;
             font-size: 16px;
             font-weight: bold;
             transition: 300ms ease-in-out-out;
@@ -593,7 +591,7 @@
                 const date = new Date();
                 let today = date.toDateString();
                 let time = date.toLocaleTimeString();
-                document.getElementById('date-time').innerHTML = '<p class="text-black" id="date">' + today + '</p><p class="text-black" id="time">' + time + '</p>';
+                document.getElementById('date-time').innerHTML = '<p class="text-white" id="date">' + today + '</p><p class="text-white" id="time">' + time + '</p>';
                 setTimeout(dateTime, 1000);
             }
 
@@ -608,7 +606,7 @@
                         let tempK = parseFloat(data.main.temp);
                         let tempC = Math.round(tempK - 273.15);
                         let tempF = Math.round((tempK - 273.15) * 1.8) + 32;
-                        document.getElementById('weather').innerHTML = '<p class="text-black" id="location">' + data.name + '</p><p class="text-black" id="details" ' + 'title="' + tempF + '&deg;F">' + '<img src="https://openweathermap.org/img/wn/' + weatherIcon + '.png">' + data.weather[0].description + '<span class="separator">|</span>' + tempC + '&deg;C</p>';
+                        document.getElementById('weather').innerHTML = '<p class="text-white" id="location">' + data.name + '</p><p class="text-white" id="details" ' + 'title="' + tempF + '&deg;F">' + '<img src="https://openweathermap.org/img/wn/' + weatherIcon + '.png">' + data.weather[0].description + '<span class="separator">|</span>' + tempC + '&deg;C</p>';
                     });
             }
 
@@ -618,27 +616,27 @@
 
 
             let publicTools = [
-                { name: 'Certificate', link: '/cert-gen/', img: '/assets/certificate-contract-svgrepo-com.svg', category: 'Academic', description: 'Generate certificates' },
-                { name: 'CV builder', link: 'https://open-resume.fnx.tools/', img: '/assets/resume.svg', category: 'Productivity', description: 'Build your CV' },
-                { name: 'cyber chef', link: '/CyberChef_v10.8.2/', img: '/assets/cyberchef.png', category: 'Security', description: 'Perform various cryptographic operations' },
+                { name: 'Certificate', link: '/cert-gen/', img: '/assets/certificate-contract-svgrepo-com.svg', description: 'Generate Certificates' },
+                { name: 'CV Builder', link: 'https://open-resume.fnx.tools/', img: '/assets/resume.svg', description: 'Build Your CV' },
+                { name: 'Cyber Chef', link: '/CyberChef_v10.8.2/', img: '/assets/cyberchef.png', description: 'Perform Various Cryptographic Operations' },
                 // { name: 'Reactive Resume', link: 'https://reactive-resume.fnx.tools/', img: '/assets/reactive-resume.svg', category: 'Productivity', description: 'Build your CV' },
-                { name: 'Url Short', link: 'https://url.fnx.codes/', img: '/assets/url.svg', category: 'Productivity', description: 'shorten long urls easily' },
-                { name: 'PDF tools', link: 'https://pdf-tools.fnx.tools/', img: '/assets/pdf.svg', category: 'Productivity', description: 'Manipulate PDF files' },
-                { name: 'IT tools', link: 'it-tools/', img: '/assets/code-tech-dev-svgrepo-com.svg', category: 'Development', description: 'Collection of IT tools' },
-                { name: 'Password tools', link: 'password/', img: '/assets/password-svgrepo-com.svg', category: 'Security', description: 'Generate and manage passwords' },
-                { name: 'Excalidraw', link: 'excalidraw/', img: '/assets/excalidraw.png', category: 'Design', description: 'Create diagrams and sketches' },
-                { name: 'Drawio', link: 'drawio/', img: '/assets/drawio.png', category: 'Design', description: 'Create diagrams and flowcharts' },
-                { name: 'Secret sharing', link: 'https://ots.fnx.tools/', img: '/assets/secret.svg', category: 'Security', description: 'Share secrets securely' },
-                { name: 'string-is', link: 'https://stringis.fnx.tools/', img: '/assets/string-is.svg', category: 'Productivity', description: 'wide range it tools' },
-                { name: 'Internet speed', link: 'https://speedtest.fnx.codes/', img: '/assets/gauge.svg', category: 'Network', description: 'Test your internet speed' },
+                { name: 'URL Short', link: 'https://url.fnx.codes/', img: '/assets/url.svg', description: 'Shorten urls Easily' },
+                { name: 'PDF Tools', link: 'https://pdf-tools.fnx.tools/', img: '/assets/pdf.svg', description: 'Manipulate PDF Files' },
+                { name: 'IT Tools', link: 'it-tools/', img: '/assets/code-tech-dev-svgrepo-com.svg', description: 'Useful IT Tools' },
+                { name: 'Password Tools', link: 'password/', img: '/assets/password-svgrepo-com.svg', description: 'Generate & Manage Your Passwords' },
+                { name: 'Excalidraw', link: 'excalidraw/', img: '/assets/excalidraw.png', description: 'Create Diagrams & Sketches' },
+                { name: 'Drawio', link: 'drawio/', img: '/assets/drawio.png', description: 'Create Diagrams & Flowcharts' },
+                { name: 'Secret Sharing', link: 'https://ots.fnx.tools/', img: '/assets/secret.svg', description: 'Share Secrets Securely' },
+                { name: 'string-is', link: 'https://stringis.fnx.tools/', img: '/assets/string-is.svg', description: 'Wide-Range IT Tools' },
+                { name: 'Internet Speed', link: 'https://speedtest.fnx.codes/', img: '/assets/gauge.svg', description: 'Test Your Internet Speed' },
             ];
 
             let privateTools = [
-                { name: '2fa', link: 'https://2fa.fnx.tools', img: 'https://cdn-icons-png.flaticon.com/256/11220/11220734.png', category: 'Security', description: 'Enable two-factor authentication' },
-                { name: 'GitLab', link: 'https://gitlab.fnx.tools', img: 'https://avatars.slack-edge.com/2022-05-10/3504409679109_09edd9580fda38ed7976_512.png', category: 'Development', description: 'Collaborate on Git repositories' },
-                { name: 'PenPot', link: 'https://PenPot.fnx.tools', img: 'https://d4.alternativeto.net/gpayjJ_wup7L1nzrdg9dt7mR730s6i4HC3mZlnEOK6s/rs:fit:280:280:0/g:ce:0:0/exar:1/YWJzOi8vZGlzdC9pY29ucy9wZW5wb3RfMjEwMDUyLnBuZw.png', category: 'Design', description: 'Create and collaborate on design projects' },
-                { name: 'Next Cloud', link: 'https://cloud.fnx.tools', img: 'https://idin9-web-files.s3.ap-southeast-1.amazonaws.com/th/wp-content/uploads/2020/03/02161822/NextCloud.png', category: 'Cloud', description: 'Store and sync files in the cloud' },
-                { name: 'FNX Portal', link: 'https://portal.fnx.codes', img: 'assets/portal.png', category: 'Projects', description: 'Projects manager' },
+                { name: '2FA', link: 'https://2fa.fnx.tools', img: 'https://cdn-icons-png.flaticon.com/256/11220/11220734.png', description: 'Enable Two-Factor Authentication' },
+                { name: 'GitLab', link: 'https://gitlab.fnx.tools', img: 'https://avatars.slack-edge.com/2022-05-10/3504409679109_09edd9580fda38ed7976_512.png', description: 'Collaborate on Git repositories' },
+                { name: 'PenPot', link: 'https://PenPot.fnx.tools', img: 'https://d4.alternativeto.net/gpayjJ_wup7L1nzrdg9dt7mR730s6i4HC3mZlnEOK6s/rs:fit:280:280:0/g:ce:0:0/exar:1/YWJzOi8vZGlzdC9pY29ucy9wZW5wb3RfMjEwMDUyLnBuZw.png', description: 'Create & Collaborate on Design Projects' },
+                { name: 'Next Cloud', link: 'https://cloud.fnx.tools', img: 'https://idin9-web-files.s3.ap-southeast-1.amazonaws.com/th/wp-content/uploads/2020/03/02161822/NextCloud.png', description: 'Store & Sync Files in the Cloud' },
+                { name: 'FNX Portal', link: 'https://portal.fnx.codes', img: 'assets/portal.png', description: 'Projects manager' },
                 // { name: 'Openproject', link: 'https://openproject.fnx.codes', img: 'assets/openproject.png', category: 'Projects', description: 'Projects manager' },
             ];
 
@@ -646,7 +644,7 @@
 
             function makeToolsString(tools) {
                 return tools.map(tool => `
-            <a class="container noselect  m-5 text-black" href="${tool.link}" target="_blank">
+            <a class="container noselect  m-5 text-white" href="${tool.link}" target="_blank">
 <div class="canvas ">
 <div class="tracker tr-1"></div>
 <div class="tracker tr-2"></div>
@@ -673,17 +671,15 @@
 <div class="tracker tr-23"></div>
 <div class="tracker tr-24"></div>
 <div class="tracker tr-25"></div>
-<div id="card" class="custom-card">
+<div id="card" class="custom-card justify-content-center align-items-center">
 
-    <div class=""></div>
-        <div class="subtitle">
-    </div>
+    
     <img src="${tool.img}" class="img-fluid w-50" id="icon">
     <p id="prompt">${tool.name}</p>
     <div class="title" id="desc-prompt">${tool.description}</div>
-    <div class="subtitle ">
+    <!-- <div class="subtitle ">
         ${tool.category}
-    </div>
+    </div> -->
 
 </div>
 </div>
@@ -924,7 +920,7 @@
             <nav id="dock">
             </nav>
             <section id="search">
-                <h2 class="sr-only">Search</h2>
+                <h2 class="sr-only text-white">Search</h2>
                 <form action="https://www.google.com/search" method="get" class="form-inline my-2 my-lg-0">
                     <input class="form-control mr-sm-2" type="text" id="q" name="q" autofocus placeholder="Search"
                         aria-label="Search">
@@ -932,17 +928,17 @@
                 </form>
             </section>
         </section>
-        <h2 class="mt-2      text-black"
+        <h2 class="mt-2      text-white"
             style="font-size: 2rem; font-weight: bold; text-align: center; text-transform: uppercase; letter-spacing: 0.1rem;">
-            Public Tools
+            <span class="h2span">Public Tools</span>
         </h2>
-        <ul id="public-tools" class="text-black row m-2 justify-content-center align-items-center p-0"></ul>
+        <ul id="public-tools" class="text-white row m-2 justify-content-center align-items-center p-0"></ul>
 
-        <h2 class="mt-4 text-black"
+        <h2 class="mt-4 text-white"
             style="font-size: 2rem; font-weight: bold; text-align: center; text-transform: uppercase; letter-spacing: 0.1rem;">
             Private Tools
         </h2>
-        <ul id="private-tools" class="text-black row m-2 justify-content-center align-items-center p-0"></ul>
+        <ul id="private-tools" class="text-white row m-2 justify-content-center align-items-center p-0"></ul>
 
     </div>
 
