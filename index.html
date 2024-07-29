@@ -53,20 +53,27 @@
             width: 12rem;
         }
 
-        @media (min-width: 992px) {
+    /* For laptops screens */
+@media (min-width: 992px) {
+    .main-title {
+        top: calc(500px + 55vh);
+    }
+}
 
+/* For tablets */
+@media (min-width: 768px) and (max-width: 991px) {
+    .main-title {
+        top: calc(1200px + 50vh);
+    }
+}
 
-            .main-title {
-                top: calc(500px + 55vh);
-            }
-        }
+/* For smaller screens (mobile) */
+@media (max-width: 767px) {
+    .main-title {
+        top: calc(2800px + 20vh);
+    }
+}
 
-        @media (max-width: 991px) {
-
-            .main-title {
-                top: calc(2800px + 50vh);
-            }
-        }
 
         main {
             align-items: center;
